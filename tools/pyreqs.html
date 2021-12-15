@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Python Requests Toolkit</title>
+  <meta charset="utf-8">
+  <meta name="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+</head>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+  html * {
+    font-family: 'Ubuntu', sans-serif !important;
+  }
+</style>
+
+<body>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <p class="title is-4">
+      Python Requests Toolkit
+    </p>
+    <p class="subtitle">Usage: Raw headers to JSON, Raw data to JSON or URL encoded texts.</p>
+  </div>
+</section>
+<div class="container is-fluid">
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <div class="tile is-child box">
+        <label class="label">Put Your Text</label>
+        <textarea class="textarea" id="text" placeholder="Enter your text here..." rows="10"></textarea>
+        <br>
+        <div class="select is-fullwidth">
+          <select id="select">
+            <option value="select">Select Mode</option>
+            <option value="json">Raw to JSON</option>
+            <option value="urlencode">Raw to URL Encode</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="tile is-parent is-half">
+      <div class="tile is-child box">
+        <p><b>Result:</b></p>
+        <p id="result" style="word-break: break-all;"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function RawtoJson(text) {
+    var text = text.split("\n");
+    var json = {};
+    text.forEach(function(line) {
+      if (line.includes(": ")){
+        seperator = ": ";
+      } else {
+        seperator = ":";
+      }
+      try {
+        var key = line.split(seperator)[0];
+        var value = line.split(seperator)[1];
+        json[key] = value;
+      } catch (e) {
+        // pass
+      }
+    });
+    return JSON.stringify(json);
+  }
+  function RawtoURLEncode(text) {
+    var text = text.split("\n");
+    let result = "";
+    text.forEach(function(line) {
+      if (line.includes(": ")){
+        seperator = ": ";
+      } else {
+        seperator = ":";
+      }
+      try {
+        var key = line.split(seperator)[0];
+        var value = line.split(seperator)[1];
+        result += encodeURI(key) + "=" + encodeURI(value) + "&";
+      } catch (e) {
+        // pass
+      }
+    });
+    return result.slice(0, -1);
+  }
+  text = document.getElementById('text');
+  mode = document.getElementById('select');
+  text.onkeyup = function() { 
+    if (mode.value == "json") {
+      document.getElementById('result').innerHTML = RawtoJson(text.value);
+    } else if (mode.value == "urlencode") {
+      document.getElementById('result').innerHTML = RawtoURLEncode(text.value);
+    } else {
+      alert("Please select a mode.");
+    }
+  }
+  mode.onchange = function() {
+    if (mode.value == "json") {
+      document.getElementById('result').innerHTML = RawtoJson(text.value);
+    } else if (mode.value == "urlencode") {
+      document.getElementById('result').innerHTML = RawtoURLEncode(text.value);
+    } else {
+      alert("Please select a mode.");
+    }
+  };
+</script>
+
+</body>
+</html>

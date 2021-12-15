@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>URL Encode & Decode</title>
+  <meta charset="utf-8">
+  <meta name="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3/build/web/hack.css">
+</head>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Ubuntu&display=swap');
+  html * {
+    font-family: 'Ubuntu', sans-serif !important;
+  }
+</style>
+
+<body>
+
+<section class="hero is-small">
+  <div class="hero-body">
+    <p class="title is-4">
+      URL Encode & Decode
+    </p>
+    <p class="subtitle">You can use this to encode and decode texts :)</p>
+  </div>
+</section>
+<div class="container is-fluid">
+  <div class="tile is-ancestor">
+    <div class="tile is-parent">
+      <div class="tile is-child box">
+        <label class="label">Put Your Text</label>
+        <textarea class="textarea" id="text" placeholder="Enter your text here..." rows="10"></textarea>
+        <br>
+        <div class="select is-fullwidth">
+          <select id="select">
+            <option value="select">Select Mode</option>
+            <option value="encode">URL Encode</option>
+            <option value="decode">URL Decode</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="tile is-parent is-half">
+      <div class="tile is-child box">
+        <p><b>Result:</b></p>
+        <p id="result" style="word-break: break-all;"></p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  function DoIt(mode, text) {
+    if (mode.value == 'encode') {
+      document.getElementById('result').innerHTML = encodeURIComponent(text.value);
+    } else if (mode.value == 'decode') {
+      try {
+        data = decodeURIComponent(text.value);
+      } catch (e) {
+        data = 'Invalid Text!';
+      }
+      document.getElementById('result').innerHTML = data;
+    } else if (mode.value == 'select') {
+      alert('Please select mode!');
+    }
+  }
+  text = document.getElementById('text');
+  mode = document.getElementById('select');
+  text.onkeyup = function() { DoIt(mode, text); };
+  mode.onchange = function() { DoIt(mode, text); };
+</script>
+
+</body>
+</html>
